@@ -3,28 +3,28 @@
 </template>
 
 <script setup lang="ts">
-import BaseDropdown from './BaseDropdown.vue'
 import { useProductsStore } from '@/stores/products'
+import BaseDropdown from '@/components/BaseDropdown.vue'
 
 const productsStore = useProductsStore()
 
 const dropdownOptions = [
     {
-        value: 'ascending',
+        value: 'asc',
         text: 'Najtańsze',
     },
     {
-        value: 'descending',
+        value: 'desc',
         text: 'Najdroższe',
     },
 ]
 const setSelectedSortOption = (value: string) => {
     switch (value) {
-        case 'descending':
+        case 'desc':
             productsStore.setSortBy(value)
             break
 
-        case 'ascending':
+        case 'asc':
             productsStore.setSortBy(value)
             break
 

@@ -3,7 +3,7 @@
     <main>
         <section>
             <div class="container d-flex justify-content-center">
-                <SearchBar v-model="inputText" class="mb-5 w-sm-100 w-50" />
+                <ProductSearchbar v-model="inputText" class="mb-5 w-sm-100 w-50" />
             </div>
         </section>
         <section class="bg-light">
@@ -21,36 +21,32 @@
                     <h2>Niestety, nie znaleźliśmy żadnych produktów :(</h2>
                     <p>Spróbuj wpisać inną nazwę</p>
                 </div>
-                <div v-else class="text-center">
-                    <div class="spinner-grow" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                </div>
+                <BaseGrowSpinner v-else class="text-center" />
             </div>
         </section>
     </main>
 </template>
 
 <script setup lang="ts">
-import TheHeader from './components/TheHeader.vue'
-import SearchBar from './components/SearchBar.vue'
-import ProductCard from './components/ProductCard.vue'
 import { ref, watch, onMounted } from 'vue'
+import { useProductsStore } from '@/stores/products'
+import TheHeader from '@/components/TheHeader.vue'
+import ProductSearchbar from '@/components/ProductSearchbar.vue'
+import ProductCard from '@/components/ProductCard.vue'
+import BaseGrowSpinner from '@/components/BaseGrowSpinner.vue'
 import { debounce } from '@/utils'
-import { useProductsStore } from './stores/products'
 
 const productsStore = useProductsStore()
-
 const inputText = ref('')
 
 watch(
     inputText,
     debounce(() => {
-        productsStore.updateProductsList(inputText.value)
+        productsStore.setProductSearchKeyword(inputText.value)
     }, 300)
 )
 
 onMounted(() => {
-    productsStore.updateProductsList(inputText.value)
+    productsStore.updateProductsList()
 })
 </script>

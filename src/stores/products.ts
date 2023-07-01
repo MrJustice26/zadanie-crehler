@@ -1,10 +1,16 @@
 import { defineStore } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { Product, ProductsPriceOrder } from '@/types/stores'
 
 export const useProductsStore = defineStore('products', () => {
     const sortBy = ref<null | ProductsPriceOrder>(null)
+    const productSearchKeyword = ref('')
     const products = ref<Product[]>([])
+
+    const defaultSortOption = 'asc'
+    const computedPriceOrder = computed(() => {
+        return `price-${sortBy.value || defaultSortOption}`
+    })
 
     const isProductsFetching = ref(false)
 
@@ -18,28 +24,25 @@ export const useProductsStore = defineStore('products', () => {
         sortBy.value = desiredSortBy
     }
 
-    const sortedProducts = computed(() => {
-        if (!sortBy.value) return products.value
+    const setProductSearchKeyword = (searchTerm: string) => {
+        productSearchKeyword.value = searchTerm
+    }
 
-        switch (sortBy.value) {
-            case 'ascending':
-                return products.value.sort((productA, productB) => productA.price - productB.price)
-
-            case 'descending':
-                return products.value.sort((productA, productB) => productB.price - productA.price)
-
-            default:
-                return products.value
-        }
+    watch([sortBy, productSearchKeyword], () => {
+        updateProductsList()
     })
 
     const getProducts = async () => {
         const defaultCategoryId = 'e435c9763b0d44fcab67ea1c0fdb3fa0'
 
+        const bodyPayload = {
+            order: computedPriceOrder.value,
+        }
+
         const response = await fetch(`${baseURL}/product-listing/${defaultCategoryId}`, {
             headers: headersConfig,
             method: 'POST',
-            body: JSON.stringify({}),
+            body: JSON.stringify(bodyPayload),
         })
 
         if (!response?.ok) {
@@ -53,6 +56,7 @@ export const useProductsStore = defineStore('products', () => {
     const getProductsByKeyword = async (keyword: string) => {
         const bodyPayload = {
             search: keyword,
+            order: computedPriceOrder.value,
         }
 
         const response = await fetch(`${baseURL}/search`, {
@@ -79,13 +83,13 @@ export const useProductsStore = defineStore('products', () => {
         })
     }
 
-    const updateProductsList = async (inputText: string) => {
+    const updateProductsList = async () => {
         let receivedProducts
         isProductsFetching.value = true
-        if (!inputText) {
+        if (!productSearchKeyword.value) {
             receivedProducts = await getProducts()
         } else {
-            receivedProducts = await getProductsByKeyword(inputText)
+            receivedProducts = await getProductsByKeyword(productSearchKeyword.value)
         }
 
         if (!receivedProducts) return
@@ -102,9 +106,10 @@ export const useProductsStore = defineStore('products', () => {
     }
 
     return {
-        updateProductsList,
-        products: sortedProducts,
+        setProductSearchKeyword,
         setSortBy,
+        products,
         isFetching: isProductsFetching,
+        updateProductsList,
     }
 })

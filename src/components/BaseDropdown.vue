@@ -23,7 +23,6 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-
 import { Dropdown, DropdownOption } from '@/types/components'
 
 const props = defineProps<Dropdown>()

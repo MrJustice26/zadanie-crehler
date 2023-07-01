@@ -4,6 +4,6 @@ type Product = {
     price: number
 }
 
-type ProductsPriceOrder = 'ascending' | 'descending'
+type ProductsPriceOrder = 'asc' | 'desc'
 
 export { Product, ProductsPriceOrder }

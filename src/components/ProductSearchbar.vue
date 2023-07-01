@@ -10,9 +10,9 @@
 </template>
 
 <script setup lang="ts">
-import { SearchBar } from '@/types/components'
+import { ProductSearchbar } from '@/types/components'
 
-defineProps<SearchBar>()
+defineProps<ProductSearchbar>()
 
 defineEmits<{
     (e: 'update:modelValue', value: string): void

@@ -13,8 +13,8 @@
 </template>
 
 <script setup lang="ts">
-import { ProductCard } from '@/types/components'
 import { computed } from 'vue'
+import { ProductCard } from '@/types/components'
 
 const props = defineProps<ProductCard>()
 
