@@ -13,11 +13,7 @@
 </template>
 
 <script setup lang="ts">
-type Card = {
-    title: string
-    text: string
-    price: number
-}
+import { ProductCard } from '@/types/components'
 
-defineProps<Card>()
+defineProps<ProductCard>()
 </script>

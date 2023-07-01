@@ -10,9 +10,9 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
-    modelValue: string
-}>()
+import { SearchBar } from '@/types/components'
+
+defineProps<SearchBar>()
 
 defineEmits<{
     (e: 'update:modelValue', value: string): void

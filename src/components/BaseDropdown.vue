@@ -24,14 +24,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 
-type Option = {
-    value: string
-    text: string
-}
-
-type Dropdown = {
-    options: Option[]
-}
+import { Dropdown, DropdownOption } from '@/types/components'
 
 const props = defineProps<Dropdown>()
 const emit = defineEmits<{
@@ -42,7 +35,7 @@ const selectedOption = ref<string | null>(null)
 const selectedOptionText = computed(() => {
     if (!selectedOption.value) return 'Wybierz opcję'
 
-    const findedOption = props.options.find((option) => option.value === selectedOption.value)
+    const findedOption = props.options.find((option: DropdownOption) => option.value === selectedOption.value)
     if (!findedOption) {
         console.warn(`Undefined option ${selectedOption.value}`)
         return 'Wybierz opcję'
