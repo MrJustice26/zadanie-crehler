@@ -6,8 +6,8 @@
                 <SearchBar v-model="inputText" class="mb-5 w-sm-100 w-50" />
             </div>
         </section>
-        <section>
-            <div class="container mb-5">
+        <section class="bg-light">
+            <div class="container mb-5 py-5">
                 <ul v-if="!productsStore.isFetching && productsStore.products.length > 0" class="row gy-4">
                     <li
                         v-for="(product, index) in productsStore.products"

@@ -7,13 +7,18 @@
                     {{ text }}
                 </p>
             </div>
-            <p class="mb-0"><b>Cena</b> {{ price }} zł</p>
+            <p class="mb-0"><b>Cena</b> {{ formatPrice }} zł</p>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import { ProductCard } from '@/types/components'
+import { computed } from 'vue'
 
-defineProps<ProductCard>()
+const props = defineProps<ProductCard>()
+
+const formatPrice = computed(() => {
+    return props.price.toFixed(2).replace('.', ',')
+})
 </script>
