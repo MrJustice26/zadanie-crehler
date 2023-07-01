@@ -1,0 +1,20 @@
+$grid-breakpoints: (
+    xs: 0,
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1200px,
+    xxl: 1400px,
+);
+
+@each $breakpoint, $value in $grid-breakpoints {
+    @for $i from 25 through 100 {
+        $class-name: if($breakpoint == xs, 'w-#{$i}', 'w-#{$breakpoint}-#{$i}');
+
+        @media screen and (min-width: $value) {
+            .#{$class-name} {
+                width: percentage(calc($i/100)) !important;
+            }
+        }
+    }
+}
