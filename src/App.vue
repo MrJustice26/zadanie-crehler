@@ -8,19 +8,15 @@
         </section>
         <section class="bg-light">
             <div class="container py-5">
-                <ul v-if="!productsStore.isFetching && productsStore.products.length > 0" class="row gy-4">
-                    <li
-                        v-for="(product, index) in productsStore.products"
-                        :key="index"
-                        class="col-12 col-md-6 col-lg-4"
-                    >
-                        <ProductCard :title="product.title" :text="product.description" :price="product.price" />
-                    </li>
-                </ul>
-                <div v-else-if="!productsStore.isFetching && productsStore.products.length === 0" class="text-center">
-                    <h2>Niestety, nie znaleźliśmy żadnych produktów :(</h2>
-                    <p>Spróbuj wpisać inną nazwę</p>
-                </div>
+                <ProductCardList
+                    v-if="!productsStore.isFetching && productsStore.products.length > 0"
+                    :products="productsStore.products"
+                    class="row gy-4"
+                />
+                <ProductListIsEmptyFeedback
+                    v-else-if="!productsStore.isFetching && productsStore.products.length === 0"
+                    class="text-center"
+                />
                 <BaseGrowSpinner v-else class="text-center" />
             </div>
         </section>
@@ -32,8 +28,9 @@ import { ref, watch, onMounted } from 'vue'
 import { useProductsStore } from '@/stores/products'
 import TheHeader from '@/components/TheHeader.vue'
 import ProductSearchbar from '@/components/ProductSearchbar.vue'
-import ProductCard from '@/components/ProductCard.vue'
+import ProductCardList from '@/components/ProductCardList.vue'
 import BaseGrowSpinner from '@/components/BaseGrowSpinner.vue'
+import ProductListIsEmptyFeedback from './components/ProductListIsEmptyFeedback.vue'
 import { debounce } from '@/utils'
 
 const productsStore = useProductsStore()

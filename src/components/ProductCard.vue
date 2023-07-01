@@ -4,7 +4,7 @@
             <div class="mb-2">
                 <h5 class="card-title">{{ title }}</h5>
                 <p class="card-text">
-                    {{ text }}
+                    {{ description }}
                 </p>
             </div>
             <p class="mb-0"><b>Cena</b> {{ formatPrice }}</p>
