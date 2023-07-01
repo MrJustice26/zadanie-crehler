@@ -19,7 +19,7 @@
                 </ul>
                 <div v-else-if="!productsStore.isFetching && productsStore.products.length === 0" class="text-center">
                     <h2>Niestety, nie znaleźliśmy żadnych produktów :(</h2>
-                    <p>Spróbuj wpisać inne słowa</p>
+                    <p>Spróbuj wpisać inną nazwę</p>
                 </div>
                 <div v-else class="text-center">
                     <div class="spinner-grow" role="status">
