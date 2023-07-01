@@ -3,13 +3,22 @@ import { computed, ref, watch } from 'vue'
 import { Product, ProductsPriceOrder } from '@/types/stores'
 
 export const useProductsStore = defineStore('products', () => {
-    const sortBy = ref<null | ProductsPriceOrder>(null)
+    const sortOptions = [
+        {
+            value: 'asc',
+            text: 'Najtańsze',
+        },
+        {
+            value: 'desc',
+            text: 'Najdroższe',
+        },
+    ]
+    const sortBy = ref<ProductsPriceOrder>('asc')
     const productSearchKeyword = ref('')
     const products = ref<Product[]>([])
 
-    const defaultSortOption = 'asc'
     const computedPriceOrder = computed(() => {
-        return `price-${sortBy.value || defaultSortOption}`
+        return `price-${sortBy.value}`
     })
 
     const isProductsFetching = ref(false)
@@ -20,10 +29,6 @@ export const useProductsStore = defineStore('products', () => {
         'Content-Type': 'application/json',
     }
 
-    const setSortBy = (desiredSortBy: ProductsPriceOrder) => {
-        sortBy.value = desiredSortBy
-    }
-
     const setProductSearchKeyword = (searchTerm: string) => {
         productSearchKeyword.value = searchTerm
     }
@@ -32,7 +37,7 @@ export const useProductsStore = defineStore('products', () => {
         updateProductsList()
     })
 
-    const getProducts = async () => {
+    const getProductsByDefaultCategoryId = async () => {
         const defaultCategoryId = 'e435c9763b0d44fcab67ea1c0fdb3fa0'
 
         const bodyPayload = {
@@ -87,7 +92,7 @@ export const useProductsStore = defineStore('products', () => {
         let receivedProducts
         isProductsFetching.value = true
         if (!productSearchKeyword.value) {
-            receivedProducts = await getProducts()
+            receivedProducts = await getProductsByDefaultCategoryId()
         } else {
             receivedProducts = await getProductsByKeyword(productSearchKeyword.value)
         }
@@ -107,7 +112,8 @@ export const useProductsStore = defineStore('products', () => {
 
     return {
         setProductSearchKeyword,
-        setSortBy,
+        sortBy,
+        sortOptions,
         products,
         isFetching: isProductsFetching,
         updateProductsList,

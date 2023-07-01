@@ -3,7 +3,7 @@
     <main>
         <section>
             <div class="container d-flex justify-content-center">
-                <ProductSearchbar v-model="inputText" class="mb-5 w-sm-100 w-50" />
+                <ProductSearchbar v-model="inputText" class="mb-5 w-100 w-lg-50" />
             </div>
         </section>
         <section class="bg-light">
