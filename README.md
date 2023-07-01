@@ -1,5 +1,5 @@
 # Zadanie testowe
-Zrobione zadanie domowe od firmy **CREHLER**
+Zrobione zadanie rekrutacyjne od firmy **CREHLER**
 
 ## Tech stack
 Zadanie zrobiłem używając **Vue.js 3 + TypeScript** w połączeniu z **Bootstrap**, jako store używałem **Pinia**.
