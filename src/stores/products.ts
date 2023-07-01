@@ -8,9 +8,9 @@ export const useProductsStore = defineStore('products', () => {
 
     const isProductsFetching = ref(false)
 
-    const baseURL = 'https://demo.crehler.dev/store-api'
+    const baseURL = import.meta.env.VITE_STORE_API_URL
     const headersConfig = {
-        'sw-access-key': 'SWSCMDV3N2DIOUNZTKNNCTBBCW',
+        'sw-access-key': import.meta.env.VITE_SW_ACCESS_KEY,
         'Content-Type': 'application/json',
     }
 
@@ -34,7 +34,9 @@ export const useProductsStore = defineStore('products', () => {
     })
 
     const getProducts = async () => {
-        const response = await fetch(`${baseURL}/product-listing/e435c9763b0d44fcab67ea1c0fdb3fa0`, {
+        const defaultCategoryId = 'e435c9763b0d44fcab67ea1c0fdb3fa0'
+
+        const response = await fetch(`${baseURL}/product-listing/${defaultCategoryId}`, {
             headers: headersConfig,
             method: 'POST',
             body: JSON.stringify({}),
